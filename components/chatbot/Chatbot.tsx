@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { chatbotFaq } from '../../data/faq';
+import { useEffect, useState } from 'react';
 import { textContent } from '../../data/strings';
+import { useChatbotFaq } from './useChatbotFaq';
 
 interface Message {
   sender: 'user' | 'bot';
@@ -14,17 +14,7 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState('');
 
-  // Precompute a case-insensitive FAQ lookup so we can match user queries quickly.
-  const faqLookup = useMemo<Record<string, string>>(() => {
-    const result: Record<string, string> = {};
-    for (const item of chatbotFaq) {
-      if (!item?.question || !item?.answer) {
-        continue;
-      }
-      result[item.question.toLowerCase()] = item.answer;
-    }
-    return result;
-  }, []);
+  const faqLookup = useChatbotFaq();
 
   useEffect(() => {
     const handler = () => setIsOpen(true);
