@@ -15,12 +15,12 @@ const Chatbot = () => {
   const [input, setInput] = useState('');
 
   // Precompute a case-insensitive FAQ lookup so we can match user queries quickly.
-  const faqMap = useMemo<Map<string, string>>(() => {
-    const entries: Array<[string, string]> = chatbotFaq.map((item): [string, string] => [
-      item.question.toLowerCase(),
-      item.answer,
-    ]);
-    return new Map<string, string>(entries);
+  const faqLookup = useMemo<Record<string, string>>(() => {
+    const entries: Record<string, string> = {};
+    for (const item of chatbotFaq) {
+      entries[item.question.toLowerCase()] = item.answer;
+    }
+    return entries;
   }, []);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ const Chatbot = () => {
     const userMessage: Message = { sender: 'user', text: input.trim() };
     const normalized = input.trim().toLowerCase();
 
-    const matchedAnswer = [...faqMap.entries()].find(([question]) => normalized.includes(question));
-    const botResponse = matchedAnswer ? matchedAnswer[1] : textContent.chatbot.fallback;
+    const matchedEntry = Object.entries(faqLookup).find(([question]) => normalized.includes(question));
+    const botResponse = matchedEntry ? matchedEntry[1] : textContent.chatbot.fallback;
 
     setMessages((prev) => [...prev, userMessage, { sender: 'bot', text: botResponse }]);
     setInput('');
