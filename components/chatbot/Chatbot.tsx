@@ -14,6 +14,7 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState('');
 
+  // Precompute a case-insensitive FAQ lookup so we can match user queries quickly.
   const faqMap = useMemo<Map<string, string>>(() => {
     const entries: Array<[string, string]> = chatbotFaq.map((item): [string, string] => [
       item.question.toLowerCase(),
