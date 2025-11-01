@@ -1,4 +1,9 @@
-export const chatbotFaq = [
+export interface ChatbotFaq {
+  question: string;
+  answer: string;
+}
+
+export const chatbotFaq: ChatbotFaq[] = [
   {
     question: 'do i need to fast before endoscopy',
     answer: 'For upper endoscopy, please avoid food for 6 hours and clear liquids for 2 hours before the procedure unless advised otherwise.',

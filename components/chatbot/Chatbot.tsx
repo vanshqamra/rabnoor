@@ -14,9 +14,12 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState('');
 
-  const faqMap = useMemo(() => {
-    const entries = chatbotFaq.map((item) => [item.question.toLowerCase(), item.answer]);
-    return new Map(entries);
+  const faqMap = useMemo<Map<string, string>>(() => {
+    const entries: Array<[string, string]> = chatbotFaq.map((item): [string, string] => [
+      item.question.toLowerCase(),
+      item.answer,
+    ]);
+    return new Map<string, string>(entries);
   }, []);
 
   useEffect(() => {
