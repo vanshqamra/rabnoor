@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext } from 'react';
 import { AccessibilityContext } from './AccessibilityContext';
 import { textContent } from '../../data/strings';

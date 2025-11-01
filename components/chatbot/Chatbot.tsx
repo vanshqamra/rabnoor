@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 import { chatbotFaq } from '../../data/faq';
 import { textContent } from '../../data/strings';
@@ -27,6 +29,10 @@ const Chatbot = () => {
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
     const handler = () => setIsOpen(true);
     const eventListener = (event: Event) => handler();
     window.addEventListener('open-chatbot', eventListener);
