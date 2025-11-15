@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Container } from '@/components/Container';
 import { PageHeader } from '@/components/PageHeader';
 import { B2BLoginForm } from '@/components/forms/site/B2BLoginForm';
+import { cardSurface, sectionHeading, sectionSubheading } from '@/components/layout/styles';
 
 export const metadata: Metadata = {
   title: 'B2B Login | Rab Noor Pvt Ltd',
@@ -16,12 +17,14 @@ export default function B2BLoginPage() {
   return (
     <>
       <PageHeader title="B2B Login" description="Secure distributor access." />
-      <Container className="py-16">
-        <div className="mx-auto max-w-lg rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
-          <h2 className="text-xl font-semibold text-slate-900">Sign in to continue</h2>
-          <p className="mt-2 text-sm text-slate-600">Need access? Email partnerships@marblesnearme.com.</p>
-          <div className="mt-6">
-            <B2BLoginForm />
+      <Container className="py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-lg">
+          <div className={cardSurface}>
+            <h2 className={sectionHeading}>Sign in to continue</h2>
+            <p className={`${sectionSubheading} mt-2`}>Need access? Email partnerships@marblesnearme.com.</p>
+            <div className="mt-6">
+              <B2BLoginForm />
+            </div>
           </div>
         </div>
       </Container>

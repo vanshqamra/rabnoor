@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Product } from '@/lib/marbles';
+import { cardSurface, smallLabel } from '@/components/layout/styles';
 
 interface Props {
   product: Product;
@@ -7,28 +8,18 @@ interface Props {
 }
 
 export const ProductCard = ({ product, className = '' }: Props) => (
-  <article
-    className={`flex flex-col overflow-hidden rounded-3xl border border-slate-200/70 bg-white/80 shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${className}`}
-  >
-    <figure className="relative h-44 w-full overflow-hidden">
-      <img
-        src={product.imageGallery[0]?.url ?? 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=600&q=80'}
-        alt={`${product.name} marble sample`}
-        className="h-full w-full object-cover"
-      />
-    </figure>
-    <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
-      <p className="text-xs font-semibold uppercase tracking-[0.4em] text-amber-500">{product.category}</p>
-      <h3 className="mt-3 text-xl font-semibold text-slate-900">{product.name}</h3>
-      <p className="text-sm text-slate-500">{product.origin}</p>
-      <p className="mt-3 flex-1 text-sm text-slate-600">{product.description}</p>
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
-        <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700">{product.baseColor}</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">{product.veinStyle}</span>
-      </div>
-      <Link href={`/products/${product.slug}`} className="mt-5 inline-flex items-center text-sm font-semibold text-amber-600">
-        View details →
-      </Link>
+  <article className={`${cardSurface} flex flex-col space-y-3 ${className}`}>
+    <div className="mb-2 h-36 rounded-xl bg-slate-100" aria-hidden />
+    <p className={`${smallLabel} text-slate-500`}>{product.category}</p>
+    <h3 className="text-2xl font-semibold text-slate-900">{product.name}</h3>
+    <p className="text-sm text-slate-500">{product.origin}</p>
+    <p className="text-base text-slate-700 flex-1">{product.description}</p>
+    <div className="flex flex-wrap gap-3 text-xs text-slate-600">
+      <span className="rounded-full border border-slate-200 px-3 py-1">{product.baseColor}</span>
+      <span className="rounded-full border border-slate-200 px-3 py-1">{product.veinStyle}</span>
     </div>
+    <Link href={`/products/${product.slug}`} className="mt-4 inline-flex items-center text-sm font-semibold text-slate-900">
+      View details →
+    </Link>
   </article>
 );

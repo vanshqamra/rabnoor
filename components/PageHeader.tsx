@@ -8,14 +8,20 @@ interface PageHeaderProps {
 }
 
 export const PageHeader = ({ title, description, action }: PageHeaderProps) => (
-  <header className="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white py-12">
-    <Container className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-amber-600">Rab Noor Pvt Ltd</p>
-        <h1 className="mt-4 text-4xl font-semibold text-slate-900">{title}</h1>
-        {description ? <p className="mt-3 text-base leading-relaxed text-slate-600">{description}</p> : null}
+  <header className="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white">
+    <Container className="py-16 sm:py-20 lg:py-24">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="space-y-4">
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-500">Rab Noor Pvt Ltd</p>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">{title}</h1>
+          {description ? (
+            <p className="text-base sm:text-lg leading-relaxed text-slate-700 max-w-2xl">{description}</p>
+          ) : null}
+        </div>
+        <div className="w-full lg:max-w-sm">
+          {action ?? <div className="h-32 rounded-2xl bg-slate-100" aria-hidden />}
+        </div>
       </div>
-      {action}
     </Container>
   </header>
 );
