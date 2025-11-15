@@ -144,20 +144,21 @@ const stats = [
   }
 ];
 
-const heroHeading = 'text-4xl sm:text-5xl lg:text-6xl font-semibold font-[var(--font-heading)] tracking-tight';
-const sectionHeading = 'text-3xl sm:text-4xl font-semibold font-[var(--font-heading)]';
+const heroHeading =
+  'text-4xl sm:text-5xl lg:text-6xl font-semibold font-[var(--font-heading)] tracking-tight text-slate-900';
+const sectionHeading = 'text-3xl sm:text-4xl font-semibold font-[var(--font-heading)] text-slate-900';
 const bodyText = 'text-base sm:text-lg text-slate-700 leading-relaxed max-w-2xl';
 const labelText = 'text-xs font-medium uppercase tracking-[0.3em] text-slate-500';
 const primaryButtonClass =
-  'inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm sm:text-base font-medium text-white hover:bg-slate-800 transition';
+  'inline-flex items-center justify-center rounded-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-3 text-sm sm:text-base font-medium text-white shadow-lg shadow-slate-900/10 hover:from-slate-800 hover:to-slate-900 transition';
 const secondaryButtonClass =
-  'inline-flex items-center justify-center rounded-full border border-slate-900 px-6 py-3 text-sm sm:text-base font-medium text-slate-900 hover:bg-slate-900 hover:text-white transition';
+  'inline-flex items-center justify-center rounded-full border border-slate-900/80 px-6 py-3 text-sm sm:text-base font-medium text-slate-900 hover:bg-slate-900 hover:text-white transition';
 
 export default function HomePage() {
   return (
-    <main className="bg-white">
+    <main className="bg-gradient-to-b from-stone-50 via-white to-slate-50">
       {/* Hero */}
-      <section className="border-b border-slate-100">
+      <section className="border-b border-white/40 bg-gradient-to-b from-slate-50/60 via-white to-stone-50">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div className="space-y-6">
@@ -180,14 +181,14 @@ export default function HomePage() {
               </p>
             </div>
             <div className="flex items-center justify-center">
-              <div className="h-40 sm:h-56 lg:h-64 w-full rounded-3xl bg-slate-100" aria-hidden />
+              <div className="h-40 sm:h-56 lg:h-64 w-full rounded-3xl bg-gradient-to-br from-slate-100 via-stone-100 to-slate-200 ring-1 ring-slate-200/80 shadow-inner" aria-hidden />
             </div>
           </div>
         </div>
       </section>
 
       {/* Who we serve */}
-      <section className="border-b border-slate-100">
+      <section className="border-b border-slate-100/60 bg-white/70">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-8">
           <div className="space-y-4">
             <p className={labelText}>Partnerships</p>
@@ -201,7 +202,7 @@ export default function HomePage() {
             {audiences.map((audience) => (
               <div
                 key={audience.title}
-                className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition"
+                className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white via-stone-50 to-white p-5 sm:p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition"
               >
                 <p className={labelText}>Dedicated Desk</p>
                 <h3 className="mt-2 text-2xl font-semibold font-[var(--font-heading)] text-slate-900">{audience.title}</h3>
@@ -213,7 +214,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured marbles */}
-      <section className="border-b border-slate-100">
+      <section className="border-b border-slate-100 bg-gradient-to-b from-white to-stone-50">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-4">
@@ -231,16 +232,16 @@ export default function HomePage() {
             {featuredMarbles.map((marble) => (
               <article
                 key={marble.slug}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition flex flex-col"
+                className="rounded-3xl border border-slate-200/70 bg-gradient-to-br from-white via-slate-50 to-stone-50 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition flex flex-col"
               >
-                <div className="h-32 rounded-xl bg-slate-100 mb-4" aria-hidden />
-                <span className="inline-flex w-fit rounded-full border border-slate-200 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-500">
+                <div className="h-32 rounded-xl bg-gradient-to-br from-slate-100 via-stone-100 to-slate-200 mb-4 ring-1 ring-slate-200/80" aria-hidden />
+                <span className="inline-flex w-fit rounded-full border border-slate-200/70 bg-white/70 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-500">
                   {marble.category}
                 </span>
                 <h3 className="mt-4 text-2xl font-semibold font-[var(--font-heading)] text-slate-900">{marble.name}</h3>
                 <p className="text-sm text-slate-500">{marble.origin}</p>
                 <p className="mt-2 text-base text-slate-700">{marble.baseColor} · {marble.veinStyle}</p>
-                <Link href={`/products/${marble.slug}`} className="mt-6 text-sm font-semibold text-slate-900 hover:text-slate-700">
+                <Link href={`/products/${marble.slug}`} className="mt-6 text-sm font-semibold text-slate-900 hover:text-slate-600">
                   View details →
                 </Link>
               </article>
@@ -250,7 +251,7 @@ export default function HomePage() {
       </section>
 
       {/* Why Rab Noor */}
-      <section className="border-b border-slate-100">
+      <section className="border-b border-slate-100/60 bg-white/80">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-8">
           <div className="space-y-4">
             <p className={labelText}>Why Rab Noor</p>
@@ -264,7 +265,7 @@ export default function HomePage() {
             {valueProps.map((prop) => (
               <div
                 key={prop.title}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition space-y-3"
+                className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white via-stone-50 to-white p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition space-y-3"
               >
                 <p className={labelText}>Advantage</p>
                 <h3 className="text-2xl font-semibold font-[var(--font-heading)] text-slate-900">{prop.title}</h3>
@@ -276,7 +277,7 @@ export default function HomePage() {
       </section>
 
       {/* From quarry to project */}
-      <section className="border-b border-slate-100 bg-slate-50">
+      <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 via-stone-50 to-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-8">
           <div className="space-y-4">
             <p className={labelText}>Process</p>
@@ -289,9 +290,9 @@ export default function HomePage() {
             {processSteps.map((step, index) => (
               <div
                 key={step.title}
-                className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-start"
+                className="flex flex-col gap-4 rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white via-slate-50 to-stone-50 p-6 shadow-sm sm:flex-row sm:items-start"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white text-lg font-semibold">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-slate-900 to-slate-700 text-white text-lg font-semibold shadow-lg shadow-slate-900/20">
                   {index + 1}
                 </div>
                 <div>
@@ -305,7 +306,7 @@ export default function HomePage() {
       </section>
 
       {/* Global presence */}
-      <section className="border-b border-slate-100">
+      <section className="border-b border-slate-100 bg-white/80">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-10">
           <div className="space-y-4">
             <p className={labelText}>Global Presence</p>
@@ -315,19 +316,19 @@ export default function HomePage() {
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-6">
                 {stats.map((stat) => (
-                  <div key={stat.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div key={stat.title} className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white via-stone-50 to-white p-6 shadow-sm">
                     <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">{stat.title}</p>
                     <p className="mt-3 text-base text-slate-700 leading-relaxed">{stat.description}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 space-y-6">
+            <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-b from-slate-50 via-stone-50 to-white p-6 space-y-6 shadow-sm">
               <h3 className="text-xl font-semibold font-[var(--font-heading)] text-slate-900">Key corridors</h3>
               <ul className="space-y-4 text-base text-slate-700">
                 {corridors.map((corridor) => (
                   <li key={corridor} className="flex items-center gap-3">
-                    <span className="h-2 w-2 rounded-full bg-slate-900" aria-hidden />
+                    <span className="h-2 w-2 rounded-full bg-slate-900/80" aria-hidden />
                     {corridor}
                   </li>
                 ))}
@@ -338,7 +339,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="border-b border-slate-100">
+      <section className="border-b border-slate-100 bg-gradient-to-b from-white to-slate-50">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-8">
           <div className="space-y-4">
             <p className={labelText}>Partners speak</p>
@@ -348,7 +349,7 @@ export default function HomePage() {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.name}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-5 hover:shadow-md hover:-translate-y-1 transition"
+                className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white via-stone-50 to-white p-6 shadow-sm space-y-5 hover:shadow-lg hover:-translate-y-1 transition"
               >
                 <span className="text-5xl text-slate-200" aria-hidden>
                   “
@@ -366,13 +367,13 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="border-b border-slate-100 bg-slate-900 text-white">
+      <section className="border-b border-transparent bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-6">
-          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Plan together</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-300">Plan together</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold font-[var(--font-heading)] tracking-tight">
             Ready to plan your marble package?
           </h2>
-          <p className="text-base sm:text-lg leading-relaxed text-slate-200 max-w-3xl">
+          <p className="text-base sm:text-lg leading-relaxed text-slate-100 max-w-3xl">
             Share your drawings and quantities — we’ll propose stones, bundles, and shipping plans aligned with your budget and
             timeline.
           </p>
