@@ -139,29 +139,33 @@ export default function HomePage() {
     <main className="bg-white text-[#0a0a0a]">
       <section className="relative isolate overflow-hidden">
         <div
-          className="relative w-full h-[70vh] md:h-[85vh] bg-cover bg-center before:absolute before:inset-0 before:bg-black/35 before:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-32 after:bg-gradient-to-t after:from-black/60"
+          className="relative w-full h-[70vh] md:h-[85vh] bg-cover bg-center before:absolute before:inset-0 before:bg-black/30 before:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-32 after:bg-gradient-to-t after:from-black/70"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1900&q=80')"
+              "url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1900&q=80')"
           }}
         >
           <Container className="relative z-10 flex h-full items-center">
             <div className="max-w-xl md:max-w-2xl space-y-6 text-white">
-              <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/70">
+              <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/80">
                 Rab Noor Pvt Ltd · marblesnearme.com
               </p>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
                 Premium Indian & European Marble — Near You, Delivered Worldwide
               </h1>
-              <p className="text-base md:text-lg text-white/80 leading-relaxed">
+              <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-2xl">
                 We align quarry selections, fabrication slots, and customs-ready logistics so villas, hotels, civic spaces, and
                 residences receive perfectly matched marble at installation.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button href="/quote-builder" className="px-8 py-3 text-lg">
+                <Button href="/quote-builder" className="bg-black px-8 py-3 text-lg text-white">
                   Start Quote Builder
                 </Button>
-                <Button href="/products" variant="secondary" className="px-8 py-3 text-lg bg-white/95 text-black">
+                <Button
+                  href="/products"
+                  variant="secondary"
+                  className="border-white bg-white/90 px-8 py-3 text-lg text-black hover:bg-white"
+                >
                   Browse Products
                 </Button>
               </div>
@@ -184,8 +188,8 @@ export default function HomePage() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {audiences.map((audience, index) => (
-              <div key={audience.title} className={`${cardStyles} flex flex-col gap-4 bg-white/80`}> 
-                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-sm font-semibold text-[#0a0a0a]">
+              <div key={audience.title} className={`${cardStyles} flex flex-col gap-4 bg-white/80 transition-transform hover:-translate-y-1`}>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 text-sm font-semibold text-[#0a0a0a]">
                   {String(index + 1).padStart(2, '0')}
                 </div>
                 <h3 className="text-xl font-semibold">{audience.title}</h3>
@@ -211,15 +215,15 @@ export default function HomePage() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
             {featuredMarbles.map((marble) => (
-              <article key={marble.slug} className={`${cardStyles} p-0 flex flex-col`}>
+              <article key={marble.slug} className={`${cardStyles} flex flex-col overflow-hidden bg-white`}>
                 <figure className="relative h-64 w-full overflow-hidden">
                   <img
                     src={
                       marble.imageGallery[0]?.url ??
-                      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=600&q=80'
+                      'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=600&q=80'
                     }
                     alt={`${marble.name} marble sample`}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </figure>
                 <div className="flex flex-1 flex-col gap-4 border-t border-slate-200 p-6 md:p-8">
@@ -257,7 +261,7 @@ export default function HomePage() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
             {valueProps.map((prop) => (
-              <div key={prop.title} className={`${cardStyles} space-y-4 border-t-4 border-[#c59d5f]`}> 
+              <div key={prop.title} className={`${cardStyles} space-y-4 border border-slate-100 bg-white/95`}>
                 <span className="text-xs uppercase tracking-[0.4em] text-slate-500">Advantage</span>
                 <h3 className="text-2xl font-semibold">{prop.title}</h3>
                 <p className="text-base text-slate-600 leading-relaxed">{prop.description}</p>
@@ -275,23 +279,22 @@ export default function HomePage() {
               Transparent touchpoints keep every stakeholder aligned from the first sample to final installation.
             </p>
           </div>
-          <ol className="relative mt-16 space-y-12 md:space-y-0 md:grid md:grid-cols-4 md:gap-10">
+          <ol className="relative mt-16 space-y-12 md:flex md:space-y-0 md:gap-8">
             {processSteps.map((step, index) => (
-              <li key={step.title} className="relative md:flex md:flex-col md:items-start">
+              <li key={step.title} className="relative flex-1">
                 <div className="flex items-center gap-4">
                   <span className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 bg-white text-sm font-semibold md:h-14 md:w-14 md:text-base">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <div className="h-px flex-1 bg-slate-200 md:hidden" aria-hidden />
+                  {index !== processSteps.length - 1 && (
+                    <span className="hidden flex-1 border-t border-dashed border-slate-300 md:block" aria-hidden />
+                  )}
                 </div>
                 <span className="absolute left-6 top-12 h-[calc(100%-3rem)] w-px bg-slate-200 md:hidden" aria-hidden />
-                <div className={`${cardStyles} mt-6 w-full md:mt-8`}>
+                <div className={`${cardStyles} mt-6 w-full bg-white/90`}>
                   <h3 className="text-xl font-semibold">{step.title}</h3>
                   <p className="mt-3 text-base text-slate-600 leading-relaxed">{step.description}</p>
                 </div>
-                {index !== processSteps.length - 1 && (
-                  <span className="hidden md:absolute md:right-[-20px] md:top-7 md:block md:h-px md:w-10 md:bg-slate-200" aria-hidden />
-                )}
               </li>
             ))}
           </ol>
@@ -318,7 +321,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <div className={`${cardStyles} bg-slate-50`}>
+          <div className={`${cardStyles} bg-white`}> 
             <h3 className="text-xl font-semibold">Key Corridors</h3>
             <ul className="mt-8 divide-y divide-slate-200 text-base text-slate-700">
               {corridors.map((corridor) => (
@@ -340,7 +343,7 @@ export default function HomePage() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.name} className={`${cardStyles} space-y-6`}> 
+              <div key={testimonial.name} className={`${cardStyles} space-y-6 bg-white/95`}>
                 <span className="text-5xl text-slate-200" aria-hidden>
                   “
                 </span>
@@ -358,7 +361,7 @@ export default function HomePage() {
 
       <section className="py-20 md:py-32">
         <Container>
-          <div className="rounded-[40px] border border-slate-200 bg-slate-100/80 p-10 md:p-16">
+          <div className="rounded-[36px] border border-slate-200 bg-slate-50 p-10 md:p-16">
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-center">
               <div className="space-y-6">
                 <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Final CTA</p>
@@ -369,10 +372,10 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-end">
-                <Button href="/quote-builder" className="px-8">
+                <Button href="/quote-builder" className="bg-black px-8 text-white">
                   Start Quote Builder
                 </Button>
-                <Button href="/contact" variant="secondary" className="px-8">
+                <Button href="/contact" variant="secondary" className="border border-black px-8">
                   Contact Team
                 </Button>
               </div>
