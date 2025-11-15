@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Container } from '@/components/Container';
 import { PageHeader } from '@/components/PageHeader';
 import { ArchitectRegistrationForm } from '@/components/forms/site/ArchitectRegistrationForm';
+import { cardSurface, sectionHeading, sectionSubheading, smallLabel } from '@/components/layout/styles';
 
 export const metadata: Metadata = {
   title: 'For Architects | Rab Noor Pvt Ltd',
@@ -41,17 +42,20 @@ export default function ForArchitectsPage() {
   return (
     <>
       <PageHeader title="For Architects" description="Tools and services tailored to design practices." />
-      <Container className="space-y-12 py-12">
-        <section className="grid gap-6 md:grid-cols-2">
-          {resourceSections.map((section) => (
-            <article key={section.title} className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-sm">
+      <Container className="space-y-16 py-16 sm:py-20 lg:py-24">
+        <section className="space-y-4">
+          <p className={smallLabel}>Resources</p>
+          <div className="grid gap-6 md:grid-cols-2">
+            {resourceSections.map((section) => (
+            <article key={section.title} className={cardSurface}>
               <h2 className="text-xl font-semibold text-slate-900">{section.title}</h2>
-              <p className="mt-3 text-sm text-slate-600">{section.body}</p>
+              <p className="mt-3 text-base text-slate-700">{section.body}</p>
             </article>
           ))}
+          </div>
         </section>
-        <section className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-sm">
-          <h2 className="text-2xl font-semibold text-slate-900">Studio Support</h2>
+        <section className={cardSurface}>
+          <h2 className={sectionHeading}>Studio Support</h2>
           <ul className="mt-4 space-y-3 text-sm text-slate-700">
             {supportBullets.map((item) => (
               <li key={item} className="flex gap-3">
@@ -61,9 +65,9 @@ export default function ForArchitectsPage() {
             ))}
           </ul>
         </section>
-        <section className="rounded-3xl border border-slate-200 bg-white p-6">
-          <h2 className="text-2xl font-semibold text-slate-900">Architect Registration Form</h2>
-          <p className="mt-3 text-sm text-slate-600">
+        <section className={cardSurface}>
+          <h2 className={sectionHeading}>Architect Registration Form</h2>
+          <p className={`${sectionSubheading} mt-3`}>
             Register your practice to gain access to our CAD download hub, dedicated WhatsApp channel, and rapid sample program.
           </p>
           <div className="mt-6">

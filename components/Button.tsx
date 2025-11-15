@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 const baseStyles =
-  'inline-flex items-center justify-center rounded-full px-6 py-3 text-base font-semibold tracking-tight transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:pointer-events-none disabled:opacity-60';
+  'inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium tracking-tight transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 disabled:pointer-events-none disabled:opacity-60 sm:text-base';
 
 const variants: Record<string, string> = {
-  primary: 'bg-black text-white hover:bg-neutral-900',
-  secondary: 'border border-black text-black hover:bg-slate-100',
-  ghost: 'text-slate-700 hover:text-black'
+  primary: 'bg-slate-900 text-white hover:bg-slate-800',
+  secondary: 'border border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white',
+  ghost: 'text-slate-700 hover:text-slate-900'
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

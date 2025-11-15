@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Container } from '@/components/Container';
 import { PageHeader } from '@/components/PageHeader';
 import { Button } from '@/components/Button';
+import { cardSurface, sectionHeading, sectionSubheading, smallLabel } from '@/components/layout/styles';
 
 export const metadata: Metadata = {
   title: 'B2B Portal | Rab Noor Pvt Ltd',
@@ -35,27 +36,27 @@ export default function B2BPage() {
   return (
     <>
       <PageHeader title="B2B Portal" description="Dedicated interface for distributors and stone yards." />
-      <Container className="space-y-10 py-16">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-600">Partner portal · preliminary UI</p>
-          <h2 className="text-2xl font-semibold text-slate-900">Why distributors join</h2>
-          <p className="mt-3 text-sm text-slate-600">
+      <Container className="space-y-10 py-16 sm:py-20 lg:py-24">
+        <div className={cardSurface}>
+          <p className={smallLabel}>Partner portal · preliminary UI</p>
+          <h2 className={sectionHeading}>Why distributors join</h2>
+          <p className={`${sectionSubheading} mt-3`}>
             The portal centralizes pricing, marketing collateral, and logistics updates for partners across Europe, the Middle East, and India.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           {benefits.map((benefit) => (
-            <article key={benefit.title} className="rounded-3xl border border-slate-200 bg-white p-6">
-              <h3 className="text-lg font-semibold text-slate-900">{benefit.title}</h3>
-              <p className="mt-2 text-sm text-slate-600">{benefit.detail}</p>
+            <article key={benefit.title} className={cardSurface}>
+              <h3 className="text-xl font-semibold text-slate-900">{benefit.title}</h3>
+              <p className="mt-2 text-base text-slate-700">{benefit.detail}</p>
             </article>
           ))}
         </div>
-        <div className="rounded-3xl border border-dashed border-amber-200 bg-amber-50 p-6 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-amber-600">Access</p>
-          <h3 className="mt-2 text-2xl font-semibold text-amber-900">Invite-only login</h3>
-          <p className="mt-3 text-sm text-amber-800">Request credentials to browse current stock, book shared containers, and download marketing assets.</p>
-          <Button href="/b2b/login" className="mt-5">
+        <div className="rounded-3xl border border-slate-900 bg-slate-900 p-8 text-center text-white">
+          <p className={smallLabel}>Access</p>
+          <h3 className="mt-2 text-3xl font-semibold">Invite-only login</h3>
+          <p className="mt-3 text-base text-slate-200">Request credentials to browse current stock, book shared containers, and download marketing assets.</p>
+          <Button href="/b2b/login" variant="secondary" className="mt-6 border-white text-white hover:text-slate-900">
             Access Portal
           </Button>
         </div>

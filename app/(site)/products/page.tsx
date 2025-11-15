@@ -18,11 +18,13 @@ export default function ProductsPage() {
   return (
     <>
       <PageHeader title="Marble Products" description="Filter by tone or origin to plan your sourcing." />
-      <Container className="space-y-10 py-12">
+      <Container className="space-y-10 py-16 sm:py-20 lg:py-24">
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
-        <p className="text-base text-slate-600">
-          All marbles listed are available for FOB India or CIF Europe shipments. Ask for book-matching, cut-to-size programming, and inspection videos.
-        </p>
+        <div className="max-w-3xl space-y-4">
+          <p className="text-base sm:text-lg leading-relaxed text-slate-700">
+            All marbles listed are available for FOB India or CIF Europe shipments. Ask for book-matching, cut-to-size programming, and inspection videos.
+          </p>
+        </div>
         <ProductCatalogue categories={productCategories} products={products} />
       </Container>
     </>

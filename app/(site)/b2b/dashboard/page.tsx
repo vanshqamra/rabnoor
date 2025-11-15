@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/Container';
 import { PageHeader } from '@/components/PageHeader';
+import { cardSurface, sectionSubheading } from '@/components/layout/styles';
 
 const stock = [
   { marble: 'Makrana White', origin: 'Rajasthan, India', location: 'Kishangarh → Piraeus', availability: '120 slabs', price: 'USD 28/m² FOB', status: 'In Transit' },
@@ -22,8 +23,8 @@ export default function B2BDashboardPage() {
   return (
     <>
       <PageHeader title="B2B Dashboard" description="Mock view (authentication TBD)." />
-      <Container className="py-16 space-y-6">
-        <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white">
+      <Container className="space-y-6 py-16 sm:py-20 lg:py-24">
+        <div className={`${cardSurface} overflow-x-auto p-0`}>
           <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
             <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
               <tr>
@@ -49,7 +50,7 @@ export default function B2BDashboardPage() {
             </tbody>
           </table>
         </div>
-        <p className="text-sm text-slate-500">
+        <p className={sectionSubheading}>
           Partner access will be gated behind SSO in the next phase; this preview simply illustrates how inventory, pricing,
           and status updates will display once live data is connected.
         </p>

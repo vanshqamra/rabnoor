@@ -25,7 +25,7 @@ export const ProductCatalogue = ({ categories, products }: CatalogueProps) => {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap gap-3 rounded-3xl border border-slate-200/80 bg-white/80 p-4">
+      <div className="flex flex-wrap gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm">
         {categories.map((category) => (
           <ProductCategoryCard
             key={category.key}

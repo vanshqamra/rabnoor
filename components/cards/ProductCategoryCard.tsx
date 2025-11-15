@@ -1,3 +1,5 @@
+import { smallLabel } from '@/components/layout/styles';
+
 interface Props {
   title: string;
   description: string;
@@ -8,13 +10,13 @@ interface Props {
 export const ProductCategoryCard = ({ title, description, active, onClick }: Props) => (
   <button
     onClick={onClick}
-    className={`w-full rounded-full border px-6 py-3 text-left text-sm font-semibold tracking-wide transition ${
+    className={`w-full rounded-full border px-6 py-4 text-left text-sm font-semibold tracking-wide transition ${
       active
-        ? 'border-amber-600 bg-amber-50 text-amber-900 shadow-sm'
-        : 'border-transparent bg-slate-100/70 text-slate-600 hover:border-slate-300'
+        ? 'border-slate-900 bg-slate-900/5 text-slate-900 shadow-sm'
+        : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'
     }`}
   >
-    <span className="block text-xs uppercase tracking-[0.3em] text-slate-500">{description}</span>
+    <span className={smallLabel}>{description}</span>
     <span className="block text-base text-slate-900">{title}</span>
   </button>
 );
