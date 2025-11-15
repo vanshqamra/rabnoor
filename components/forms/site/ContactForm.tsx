@@ -1,17 +1,9 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { ContactFormPayload, SubmissionStatus, submitForm } from '@/lib/forms';
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  country: string;
-  message: string;
-}
-
-const defaultData: ContactFormData = {
+const defaultData: ContactFormPayload = {
   name: '',
   email: '',
   phone: '',
@@ -21,18 +13,21 @@ const defaultData: ContactFormData = {
 };
 
 export const ContactForm = () => {
-  const [formData, setFormData] = useState<ContactFormData>(defaultData);
-  const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
+  const [formData, setFormData] = useState<ContactFormPayload>(defaultData);
+  const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [feedback, setFeedback] = useState('');
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormPayload, string>>>({});
 
-  const handleChange = (field: keyof ContactFormData) =>
+  const handleChange = (field: keyof ContactFormPayload) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormData((prev) => ({ ...prev, [field]: event.target.value }));
       setErrors((prev) => ({ ...prev, [field]: undefined }));
+      setStatus('idle');
+      setFeedback('');
     };
 
   const validate = () => {
-    const newErrors: Partial<Record<keyof ContactFormData, string>> = {};
+    const newErrors: Partial<Record<keyof ContactFormPayload, string>> = {};
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required.';
     }
@@ -45,17 +40,25 @@ export const ContactForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
       return;
     }
-    console.log('Contact form submission', formData);
-    setSubmitted(true);
-    setFormData(defaultData);
-    setErrors({});
+    setStatus('submitting');
+    setFeedback('');
+    try {
+      const response = await submitForm<ContactFormPayload>('/api/contact', formData);
+      setStatus('success');
+      setFeedback(`Thank you! Reference ${response.id} logged at ${new Date(response.receivedAt).toLocaleString()}.`);
+      setFormData(defaultData);
+      setErrors({});
+    } catch (error) {
+      setStatus('error');
+      setFeedback(error instanceof Error ? error.message : 'Unable to submit the form.');
+    }
   };
 
   return (
@@ -124,12 +127,16 @@ export const ContactForm = () => {
       </label>
       <button
         type="submit"
-        className="w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-500"
+        className="w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={status === 'submitting'}
       >
-        Send Message
+        {status === 'submitting' ? 'Sending…' : 'Send Message'}
       </button>
-      {submitted ? <p className="text-sm text-emerald-600">Thanks! We will reply shortly.</p> : null}
-      {/* TODO: Connect to /api/contact in later phases. */}
+      {feedback ? (
+        <p className={`text-sm ${status === 'error' ? 'text-rose-500' : 'text-emerald-600'}`} aria-live="polite">
+          {feedback}
+        </p>
+      ) : null}
     </form>
   );
 };

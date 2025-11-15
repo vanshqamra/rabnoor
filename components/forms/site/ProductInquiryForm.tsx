@@ -1,38 +1,52 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { QuoteRequestPayload, SubmissionStatus, submitForm } from '@/lib/forms';
 
 interface ProductInquiryFormProps {
   productName: string;
 }
 
+const defaultState = {
+  name: '',
+  email: '',
+  company: '',
+  quantity: '',
+  destination: '',
+  notes: ''
+};
+
 export const ProductInquiryForm = ({ productName }: ProductInquiryFormProps) => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    company: '',
-    quantity: '',
-    destination: '',
-    notes: ''
-  });
-  const [status, setStatus] = useState<string>('');
+  const [formState, setFormState] = useState(defaultState);
+  const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [feedback, setFeedback] = useState('');
 
   const handleChange = (field: keyof typeof formState) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormState((prev) => ({ ...prev, [field]: event.target.value }));
-      setStatus('');
+      setStatus('idle');
+      setFeedback('');
     };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!formState.name || !formState.email || !formState.quantity) {
-      setStatus('Please share your name, email, and desired quantity.');
+      setStatus('error');
+      setFeedback('Please share your name, email, and desired quantity.');
       return;
     }
-    const payload = { ...formState, product: productName };
-    console.log('Product inquiry submission', payload);
-    setStatus('Request sent. Our sourcing desk will respond within one business day.');
-    setFormState({ name: '', email: '', company: '', quantity: '', destination: '', notes: '' });
+    const payload: QuoteRequestPayload = { ...formState, product: productName };
+    setStatus('submitting');
+    setFeedback('');
+    try {
+      const response = await submitForm<QuoteRequestPayload>('/api/quote-request', payload);
+      setStatus('success');
+      setFeedback(`Request logged. Reference ${response.id}. Our sourcing desk will respond shortly.`);
+      setFormState(defaultState);
+    } catch (error) {
+      setStatus('error');
+      setFeedback(error instanceof Error ? error.message : 'Unable to submit your request.');
+    }
   };
 
   return (
@@ -100,11 +114,18 @@ export const ProductInquiryForm = ({ productName }: ProductInquiryFormProps) => 
           placeholder="Finishes, inspection requests, delivery timing"
         />
       </label>
-      <button type="submit" className="w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white">
-        Request Availability
+      <button
+        type="submit"
+        className="w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={status === 'submitting'}
+      >
+        {status === 'submitting' ? 'Submitting…' : 'Request Availability'}
       </button>
-      {status ? <p className="text-sm text-emerald-700">{status}</p> : null}
-      {/* TODO: Replace console.log with API endpoint in Phase 3. */}
+      {feedback ? (
+        <p className={`text-sm ${status === 'error' ? 'text-rose-500' : 'text-emerald-700'}`} aria-live="polite">
+          {feedback}
+        </p>
+      ) : null}
     </form>
   );
 };

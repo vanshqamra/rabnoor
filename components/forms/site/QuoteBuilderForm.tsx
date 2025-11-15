@@ -2,23 +2,11 @@
 
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { marbleList } from '@/lib/marbles';
+import { QuoteBuilderPayload, QuoteLineItem, SubmissionStatus, submitForm } from '@/lib/forms';
 
-interface LineItem {
-  id: string;
-  marbleSlug: string;
-  quantity: string;
-  thickness: string;
-  destination: string;
-}
+type LineItem = QuoteLineItem & { id: string };
 
-interface QuoteFormState {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  lineItems: LineItem[];
-  notes: string;
-}
+type QuoteFormState = Omit<QuoteBuilderPayload, 'lineItems'> & { lineItems: LineItem[] };
 
 const generateId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -39,7 +27,8 @@ const defaultState: QuoteFormState = {
 export const QuoteBuilderForm = () => {
   const [formState, setFormState] = useState<QuoteFormState>(defaultState);
   const [currentItem, setCurrentItem] = useState<LineItem>(createEmptyItem());
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [feedback, setFeedback] = useState('');
 
   const updateField = (field: keyof QuoteFormState) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,6 +46,8 @@ export const QuoteBuilderForm = () => {
     }
     setFormState((prev) => ({ ...prev, lineItems: [...prev.lineItems, currentItem] }));
     setCurrentItem(createEmptyItem());
+    setStatus('idle');
+    setFeedback('');
   };
 
   const removeItem = (id: string) => {
@@ -67,12 +58,41 @@ export const QuoteBuilderForm = () => {
     return formState.lineItems.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0), 0);
   }, [formState.lineItems]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Quote builder submission', JSON.stringify(formState, null, 2));
-    setSubmitted(true);
-    setFormState(defaultState);
-    setCurrentItem(createEmptyItem());
+    if (!formState.name.trim() || !formState.email.trim()) {
+      setStatus('error');
+      setFeedback('Please add your name and email so we can respond.');
+      return;
+    }
+    if (!formState.lineItems.length) {
+      setStatus('error');
+      setFeedback('Add at least one marble line item to submit a quote request.');
+      return;
+    }
+
+    const payload: QuoteBuilderPayload = {
+      name: formState.name,
+      email: formState.email,
+      phone: formState.phone,
+      company: formState.company,
+      notes: formState.notes,
+      lineItems: formState.lineItems.map(({ id, ...item }) => item)
+    };
+
+    setStatus('submitting');
+    setFeedback('');
+
+    try {
+      const response = await submitForm<QuoteBuilderPayload>('/api/quote', payload);
+      setStatus('success');
+      setFeedback(`Quote submitted. Reference ${response.id} · ${new Date(response.receivedAt).toLocaleString()}.`);
+      setFormState(defaultState);
+      setCurrentItem(createEmptyItem());
+    } catch (error) {
+      setStatus('error');
+      setFeedback(error instanceof Error ? error.message : 'Unable to submit your quote.');
+    }
   };
 
   return (
@@ -152,8 +172,8 @@ export const QuoteBuilderForm = () => {
         </button>
         <div className="mt-6 space-y-3">
           {formState.lineItems.length === 0 ? <p className="text-sm text-slate-500">No items yet.</p> : null}
-          {formState.lineItems.map((item, index) => (
-            <div key={`${item.marble}-${index}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm">
+          {formState.lineItems.map((item) => (
+            <div key={item.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm">
               <p className="font-semibold text-slate-900">
                 {marbleList.find((marble) => marble.value === item.marbleSlug)?.label || 'Custom marble'}
               </p>
@@ -186,11 +206,18 @@ export const QuoteBuilderForm = () => {
         <p>Total requested quantity: {totalQuantity.toFixed(2)} (calculated from numeric values)</p>
         <p className="mt-2">We will reply with quarry availability, pricing, and logistics options.</p>
       </div>
-      <button type="submit" className="w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white">
-        Submit Quote Request
+      <button
+        type="submit"
+        className="w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={status === 'submitting'}
+      >
+        {status === 'submitting' ? 'Submitting…' : 'Submit Quote Request'}
       </button>
-      {submitted ? <p className="text-sm text-emerald-600">Quote request logged. Expect a reply shortly.</p> : null}
-      {/* TODO: Replace console.log with secure API endpoint in Phase 3. */}
+      {feedback ? (
+        <p className={`text-sm ${status === 'error' ? 'text-rose-500' : 'text-emerald-600'}`} aria-live="polite">
+          {feedback}
+        </p>
+      ) : null}
     </form>
   );
 };
