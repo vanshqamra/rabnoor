@@ -34,8 +34,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${headingFont.variable} ${bodyFont.variable} bg-slate-50 text-slate-900`}>
-        <div className="flex min-h-screen flex-col font-[var(--font-body)]">
+      <body
+        className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-white text-slate-900 antialiased font-[var(--font-body)]`}
+      >
+        <div className="flex min-h-screen flex-col">
           <Navbar />
           <main className="flex-1">
             {children}
