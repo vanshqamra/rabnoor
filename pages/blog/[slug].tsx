@@ -1,60 +1,64 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
-import Link from 'next/link';
+import { PageHeader } from '../../components/shared/PageHeader';
+import { Section } from '../../components/shared/Section';
 import { blogPosts, BlogPost } from '../../data/blogPosts';
-import { textContent } from '../../data/strings';
 
-type BlogDetailsProps = {
+interface Props {
   post: BlogPost;
-};
+}
 
-const BlogDetailsPage = ({ post }: BlogDetailsProps) => {
-  if (!post) {
-    return null;
-  }
-
+export default function BlogPostPage({ post }: Props) {
+  const blocks = post.content.split('\n\n');
   return (
-    <>
-      <Head>
-        <title>{`${post.title} | ${textContent.brand.name}`}</title>
-        <meta name="description" content={post.excerpt} />
-      </Head>
-      <section className="section">
-        <div className="container">
-          <nav aria-label="breadcrumb" style={{ marginBottom: '1rem' }}>
-            <Link href="/blog">{textContent.blog.title}</Link> / {post.title}
-          </nav>
-          <article className="card">
-            <span className="badge">{post.category}</span>
-            <h1>{post.title}</h1>
-            <p>{post.excerpt}</p>
-            <p>
-              {textContent.common.contactCta}:{' '}
-              <Link href="/contact">{textContent.navigation.contact}</Link>
-            </p>
-          </article>
-        </div>
-      </section>
-    </>
+    <div>
+      <PageHeader title={post.title} description={`${post.author} · ${post.date}`} />
+      <Section>
+        <article className="prose max-w-none prose-h2:text-slate-800 prose-p:text-slate-700">
+          {blocks.map((block, index) => {
+            const trimmed = block.trim();
+            if (trimmed.startsWith('## ')) {
+              return (
+                <h2 key={index} className="text-slate-800">
+                  {trimmed.replace('## ', '')}
+                </h2>
+              );
+            }
+            if (trimmed.startsWith('### ')) {
+              return (
+                <h3 key={index} className="text-slate-700">
+                  {trimmed.replace('### ', '')}
+                </h3>
+              );
+            }
+            if (trimmed.startsWith('- ')) {
+              const items = trimmed.split('\n').filter(Boolean);
+              return (
+                <ul key={index} className="list-disc pl-6">
+                  {items.map((item) => (
+                    <li key={item}>{item.replace('- ', '')}</li>
+                  ))}
+                </ul>
+              );
+            }
+            return (
+              <p key={index} className="text-slate-700">
+                {trimmed}
+              </p>
+            );
+          })}
+        </article>
+      </Section>
+    </div>
   );
-};
+}
 
 export const getStaticPaths: GetStaticPaths = async () => ({
   paths: blogPosts.map((post) => ({ params: { slug: post.slug } })),
-  fallback: false,
+  fallback: false
 });
 
-export const getStaticProps: GetStaticProps<BlogDetailsProps> = async ({ params }) => {
-  const slug = params?.slug as string;
-  const post = blogPosts.find((item) => item.slug === slug);
-
-  if (!post) {
-    return { notFound: true };
-  }
-
-  return {
-    props: { post },
-  };
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const post = blogPosts.find((entry) => entry.slug === params?.slug);
+  if (!post) return { notFound: true };
+  return { props: { post } };
 };
-
-export default BlogDetailsPage;

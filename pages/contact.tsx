@@ -1,72 +1,51 @@
-import Head from 'next/head';
-import { textContent } from '../data/strings';
+import { PageHeader } from '../components/shared/PageHeader';
+import { Section } from '../components/shared/Section';
+import { ContactForm } from '../components/forms/ContactForm';
 
-const ContactPage = () => {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'MedicalClinic',
-    name: textContent.brand.name,
-    medicalSpecialty: 'Gastroenterology',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '123 Tsimiski Street',
-      addressLocality: 'Thessaloniki',
-      postalCode: '54624',
-      addressCountry: 'GR',
-    },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '09:00',
-        closes: '17:00',
-      },
-    ],
-    telephone: '+30 XXX XXX XXXX',
-  };
-
+export default function ContactPage() {
   return (
-    <>
-      <Head>
-        <title>{textContent.seo.contactTitle}</title>
-        <meta name="description" content={`${textContent.contact.addressLabel} Thessaloniki`} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      </Head>
-      <section className="section">
-        <div className="container">
-          <h1 className="section-title">{textContent.contact.title}</h1>
-          <div className="card">
-            <h2>{textContent.contact.addressLabel}</h2>
-            <p>123 Tsimiski Street, Thessaloniki 54624</p>
-            <h2>{textContent.contact.phoneLabel}</h2>
-            <p>
-              <a href="tel:+300000000000">+30 XXX XXX XXXX</a>
-            </p>
-            <h2>{textContent.contact.emailLabel}</h2>
-            <p>
-              <a href="mailto:info@example.com">info@example.com</a>
-            </p>
-            <h2>{textContent.contact.hoursLabel}</h2>
-            <table className="table" aria-label="Clinic opening hours">
-              <tbody>
-                <tr>
-                  <th>Monday - Friday</th>
-                  <td>09:00 – 17:00</td>
-                </tr>
-                <tr>
-                  <th>Saturday</th>
-                  <td>By appointment</td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="map-placeholder" role="img" aria-label={textContent.contact.mapPlaceholder}>
-              {textContent.contact.mapPlaceholder}
-            </div>
+    <div>
+      <PageHeader title="Contact Rab Noor Pvt Ltd" description="India + Europe teams ready to support your marble requirement." />
+      <Section eyebrow="Offices" title="Reach our teams">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6">
+            <h3 className="text-2xl font-semibold">India HQ – Kishangarh, Rajasthan</h3>
+            <p className="mt-3 text-slate-600">Plot 21, Industrial Area, Kishangarh, Rajasthan, India</p>
+            <p className="mt-2 text-sm text-slate-500">Phone: +91 98290 00000 · WhatsApp: +91 98290 00000</p>
+            <p className="text-sm text-slate-500">Email: sales@marblesnearme.com</p>
+          </div>
+          <div className="rounded-3xl border border-slate-200 bg-white p-6">
+            <h3 className="text-2xl font-semibold">Europe Office – Athens, Greece</h3>
+            <p className="mt-3 text-slate-600">35 Poseidonos Ave, Athens Riviera, Greece</p>
+            <p className="mt-2 text-sm text-slate-500">Phone: +30 210 000 0000 · WhatsApp: +30 698 000 0000</p>
+            <p className="text-sm text-slate-500">Email: europe@marblesnearme.com</p>
           </div>
         </div>
-      </section>
-    </>
+      </Section>
+      <Section eyebrow="Map" title="Locations">
+        <div className="grid gap-6 md:grid-cols-2">
+          {['India', 'Greece'].map((location) => (
+            <div key={location} className="flex h-64 items-center justify-center rounded-3xl border border-dashed border-emerald-200 bg-white text-emerald-700">
+              Map placeholder – {location}
+            </div>
+          ))}
+        </div>
+      </Section>
+      <Section eyebrow="Send a message" title="We respond within 24 hours">
+        <ContactForm />
+      </Section>
+      <Section eyebrow="Business hours" title="Availability">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6">
+            <h3 className="text-xl font-semibold">India (IST)</h3>
+            <p className="mt-2 text-slate-600">Monday – Saturday: 9:00 – 19:00</p>
+          </div>
+          <div className="rounded-3xl border border-slate-200 bg-white p-6">
+            <h3 className="text-xl font-semibold">Europe (EET/EET)</h3>
+            <p className="mt-2 text-slate-600">Monday – Friday: 9:00 – 18:00</p>
+          </div>
+        </div>
+      </Section>
+    </div>
   );
-};
-
-export default ContactPage;
+}
