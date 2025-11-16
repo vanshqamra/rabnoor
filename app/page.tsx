@@ -1,3 +1,17 @@
+/*
+  TAILWIND DIAGNOSTIC (by Codex):
+
+  - Tailwind working? YES — after wiring up a real Tailwind build, the temporary bg-red-500 debug block renders as a red bar (it was unstyled before the fix, so it was removed once verified).
+  - tailwind.config content paths: FIXED — a new tailwind.config.ts now scans ./app, ./components, ./pages, ./lib, and ./data so App Router + shared UI files are covered.
+  - globals.css + import: FIXED — RootLayout already imported app/globals.css, and that file now uses @tailwind directives instead of a CDN import so Next injects the utilities.
+  - Project structure / multiple apps issue: App Router is the single UI surface; /pages/api only exposes API routes, so there is no competing frontend.
+
+  Root cause (best determination):
+  - Tailwind CSS had never been installed or configured in the project. Because the app relied on a CDN @import, Next.js never compiled the Tailwind utility classes (gradients, colors, cards) used in the new design.
+
+  Temporary debug elements:
+  - None — the bg-red-500 diagnostic div was removed after confirming the compiled styles took effect.
+*/
 // app/page.tsx
 import type { Metadata } from "next";
 
