@@ -1,4 +1,7 @@
-@import url('https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css');
+/* Switch from the CDN bundle to the real Tailwind build so Next.js can tree-shake utilities. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   color-scheme: light;
